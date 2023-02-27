@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const Heading = ({ title }: { title: string }) => <h2>{title}</h2>;
 
@@ -19,9 +19,21 @@ const List: React.FunctionComponent<{
   </ul>
 );
 
+interface Payload {
+  text: string;
+}
+
 function App() {
+  const [payload, setPayload] = useState<Payload | null>(null);
+
   const onListClick = useCallback((item: string) => {
     alert(item);
+  }, []);
+
+  useEffect(() => {
+    fetch('/data.json')
+      .then((response) => response.json())
+      .then((data) => setPayload(data));
   }, []);
 
   return (
@@ -29,6 +41,7 @@ function App() {
       <Heading title='Introduction' />
       <Box>Hello there</Box>
       <List items={['one', 'two', 'three']} onClick={onListClick} />
+      <Box>{JSON.stringify(payload)}</Box>
     </div>
   );
 }
