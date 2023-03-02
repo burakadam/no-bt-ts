@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { ITodo, useTodos } from './hooks/useTodos';
 
 const Heading = ({ title }: { title: string }) => <h2>{title}</h2>;
 
@@ -55,9 +56,19 @@ interface Payload {
   text: string;
 }
 
+const initialTodos: ITodo[] = [
+  {
+    id: 1,
+    text: 'İnitial todo',
+    isDone: false,
+  },
+];
+
 function App() {
   const [payload, setPayload] = useState<Payload | null>(null);
   const [value, setValue] = useNumber(0);
+  const { todos, addTodo, removeTodo, updateTodo } = useTodos(initialTodos);
+  const todoRef = useRef<HTMLInputElement>(null);
 
   const onListClick = useCallback((item: string) => {
     alert(item);
@@ -69,6 +80,14 @@ function App() {
       .then((data) => setPayload(data));
   }, []);
 
+  const handleRemoveTodo = (id: number) => removeTodo(id);
+
+  const handleTodoDone = (id: number) => updateTodo(id);
+
+  const handleAddTodo = useCallback(() => {
+    if (todoRef.current) addTodo(todoRef.current.value);
+  }, [addTodo]);
+
   return (
     <div>
       <Heading title='Introduction' />
@@ -76,6 +95,30 @@ function App() {
       <List items={['one', 'two', 'three']} onClick={onListClick} />
       <Box>{JSON.stringify(payload)}</Box>
       <Incrementer value={value} setValue={setValue} />
+      <br />
+      <hr />
+      <br />
+      <div>
+        <h4>New Todo</h4>
+        <input type='text' ref={todoRef} />
+        <button onClick={handleAddTodo}>ADD</button>
+        <ul>
+          {todos.map(({ id, text, isDone }) => (
+            <li key={id}>
+              {id}-{text} <br />
+              <button onClick={() => handleRemoveTodo(id)}>REMOVE</button>
+              <br />
+              <input
+                type='radio'
+                name={text}
+                checked={isDone}
+                onClick={() => handleTodoDone(id)}
+              />
+              <label htmlFor={text}>DONE</label>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
