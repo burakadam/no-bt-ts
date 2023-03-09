@@ -1,17 +1,19 @@
 import { useCallback, useRef } from 'react';
-import { ITodo, useTodos } from '../hooks/useTodos';
+import {
+  useAddTodo,
+  useRemoveTodo,
+  useTodos,
+  useUpdateTodo,
+} from '../contexts/todoContext';
+
 import UL from './Ul';
 
-const initialTodos: ITodo[] = [
-  {
-    id: 1,
-    text: 'İnitial todo',
-    isDone: false,
-  },
-];
-
 const TodoList = () => {
-  const { todos, addTodo, removeTodo, updateTodo } = useTodos(initialTodos);
+  const todos = useTodos();
+  const removeTodo = useRemoveTodo();
+  const addTodo = useAddTodo();
+  const updateTodo = useUpdateTodo();
+  // const { todos, addTodo, removeTodo, updateTodo } = useTodos(initialTodos);
   const todoRef = useRef<HTMLInputElement>(null);
 
   const handleRemoveTodo = (id: number) => removeTodo(id);
@@ -33,7 +35,7 @@ const TodoList = () => {
       <UL
         items={todos}
         render={({ id, text, isDone }) => (
-          <li key={id}>
+          <div key={id}>
             {id}-{text} <br />
             <button onClick={() => handleRemoveTodo(id)}>REMOVE</button>
             <br />
@@ -41,10 +43,10 @@ const TodoList = () => {
               type='radio'
               name={text}
               checked={isDone}
-              onClick={() => handleTodoDone(id)}
+              onChange={() => handleTodoDone(id)}
             />
             <label htmlFor={text}>DONE</label>
-          </li>
+          </div>
         )}
       />
     </div>

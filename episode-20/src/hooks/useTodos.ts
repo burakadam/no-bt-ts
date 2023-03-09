@@ -11,14 +11,14 @@ export interface ITodo {
   isDone: boolean;
 }
 
-const useTodos = (
-  initialValue: ITodo[]
-): {
+export type TUseTodos = {
   todos: ITodo[];
   addTodo(text: string): void;
   removeTodo(id: number): void;
   updateTodo(id: number): void;
-} => {
+};
+
+const useTodoManager = (initialValue: ITodo[]): TUseTodos => {
   const [todos, dispatch] = useReducer((state: ITodo[], action: TActions) => {
     switch (action.type) {
       case 'Add':
@@ -65,4 +65,4 @@ const useTodos = (
   return { todos, addTodo, removeTodo, updateTodo };
 };
 
-export { useTodos };
+export { useTodoManager };
