@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Box from './components/Box';
 import Incrementer, { useNumber } from './components/Incrementer';
 import List from './components/List';
+import TodoListReactUse from './components/TodoListReactUse';
 import TodoContainer from './containers/TodoContainer';
 
 const Heading = ({ title }: { title: string }) => <h2>{title}</h2>;
@@ -36,6 +37,8 @@ function App() {
       <hr />
       <br />
       <TodoContainer />
+      <br />
+      <TodoListReactUse />
     </div>
   );
 }

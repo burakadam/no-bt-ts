@@ -25,7 +25,7 @@ const useTodoManager = (initialValue: ITodo[]): TUseTodos => {
         return [
           ...state,
           {
-            id: state.length + 1,
+            id: Date.now(),
             text: action.text,
             isDone: false,
           },
