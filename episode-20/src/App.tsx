@@ -4,6 +4,7 @@ import Incrementer, { useNumber } from './components/Incrementer';
 import List from './components/List';
 import TodoListReactUse from './components/TodoListReactUse';
 import TodoContainer from './containers/TodoContainer';
+import { TodoReduxContainer } from './containers/TodoReduxContainer';
 
 const Heading = ({ title }: { title: string }) => <h2>{title}</h2>;
 
@@ -36,9 +37,16 @@ function App() {
       <br />
       <hr />
       <br />
+      <h2>React Context</h2>
       <TodoContainer />
+      <hr />
       <br />
+      <h2>React-Use Global State</h2>
       <TodoListReactUse />
+      <hr />
+      <br />
+      <h2>Redux</h2>
+      <TodoReduxContainer />
     </div>
   );
 }
